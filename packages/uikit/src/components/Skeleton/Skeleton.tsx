@@ -1,7 +1,7 @@
 import { AnimatePresence, domAnimation, LazyMotion, m as Motion } from "framer-motion";
 import React, { useRef } from "react";
 import styled, { keyframes } from "styled-components";
-import { layout, space } from "styled-system";
+import { layout, space, borderRadius } from "styled-system";
 import { animation as ANIMATION, SkeletonProps, SkeletonV2Props, variant as VARIANT } from "./types";
 import {
   appearAnimation,
@@ -48,6 +48,7 @@ const SkeletonWrapper = styled.div<SkeletonProps>`
   position: relative;
   ${layout}
   ${space}
+  overflow: hidden;
 `;
 
 const Root = styled.div<SkeletonProps>`
@@ -58,6 +59,7 @@ const Root = styled.div<SkeletonProps>`
 
   ${layout}
   ${space}
+  ${borderRadius}
 `;
 
 const Pulse = styled(Root)`
