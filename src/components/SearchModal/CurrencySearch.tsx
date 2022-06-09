@@ -168,31 +168,18 @@ function CurrencySearch({
   // if no results on main list, show option to expand into inactive
   const filteredInactiveTokens = useSearchInactiveTokenLists(debouncedQuery)
 
+  const hasFilteredInactiveTokens = Boolean(filteredInactiveTokens?.length)
+
+  const getCurrencyListRows = useCallback(() => {
+    if (searchToken && !searchTokenIsAdded && !hasFilteredInactiveTokens) {
   return (
-    <>
-      <div>
-        <AutoColumn gap="16px">
-          <Row>
-            <Input
-              id="token-search-input"
-              placeholder={t('Search name or paste address')}
-              scale="lg"
-              autoComplete="off"
-              value={searchQuery}
-              ref={inputRef as RefObject<HTMLInputElement>}
-              onChange={handleInput}
-              onKeyDown={handleEnter}
-            />
-          </Row>
-          {showCommonBases && (
-            <CommonBases chainId={chainId} onSelect={handleCurrencySelect} selectedCurrency={selectedCurrency} />
-          )}
-        </AutoColumn>
-        {searchToken && !searchTokenIsAdded ? (
           <Column style={{ padding: '20px 0', height: '100%' }}>
             <ImportRow token={searchToken} showImportView={showImportView} setImportToken={setImportToken} />
           </Column>
-        ) : Boolean(filteredSortedTokens?.length) || Boolean(filteredInactiveTokens?.length) ? (
+        )
+      }
+  
+      return Boolean(filteredSortedTokens?.length) || hasFilteredInactiveTokens ? (
           <Box margin="24px -24px">
             <CurrencyList
               height={390}
@@ -200,9 +187,7 @@ function CurrencySearch({
               currencies={filteredSortedTokens}
               inactiveCurrencies={filteredInactiveTokens}
               breakIndex={
-                Boolean(filteredInactiveTokens?.length) && filteredSortedTokens
-                  ? filteredSortedTokens.length
-                  : undefined
+                Boolean(filteredInactiveTokens?.length) && filteredSortedTokens ? filteredSortedTokens.length : undefined
               }
               onCurrencySelect={handleCurrencySelect}
               otherCurrency={otherSelectedCurrency}
@@ -218,8 +203,42 @@ function CurrencySearch({
               {t('No results found.')}
             </Text>
           </Column>
+           )
+          }, [
+            filteredInactiveTokens,
+            filteredSortedTokens,
+            handleCurrencySelect,
+            hasFilteredInactiveTokens,
+            otherSelectedCurrency,
+            searchToken,
+            searchTokenIsAdded,
+            selectedCurrency,
+            setImportToken,
+            showBNB,
+            showImportView,
+            t,
+          ])
+        
+          return (
+            <>
+              <AutoColumn gap="16px">
+                <Row>
+                  <Input
+                    id="token-search-input"
+                    placeholder={t('Search name or paste address')}
+                    scale="lg"
+                    autoComplete="off"
+                    value={searchQuery}
+                    ref={inputRef as RefObject<HTMLInputElement>}
+                    onChange={handleInput}
+                    onKeyDown={handleEnter}
+                  />
+                </Row>
+                {showCommonBases && (
+                  <CommonBases chainId={chainId} onSelect={handleCurrencySelect} selectedCurrency={selectedCurrency} />
         )}
-      </div>
+      </AutoColumn>
+      {getCurrencyListRows()}
     </>
   )
 }
