@@ -4,11 +4,13 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
+import Image from 'next/image'
 import styled, { keyframes } from 'styled-components'
+import bunnyImage from '../../../../public/images/home/lunar-bunny/bunny@2x.png'
 import CompositeImage, { CompositeImageProps } from './CompositeImage'
 import { SlideSvgDark, SlideSvgLight } from './SlideSvg'
 
-/* const flyingAnim = () => keyframes`
+const flyingAnim = () => keyframes`
   from {
     transform: translate(0,  0px);
   }
@@ -18,7 +20,7 @@ import { SlideSvgDark, SlideSvgLight } from './SlideSvg'
   to {
     transform: translate(0, 0px);
   }
-` */
+`
 
 const fading = () => keyframes`
   from {
@@ -48,7 +50,7 @@ const InnerWrapper = styled.div`
   bottom: -3px;
 `
 
-/* const BunnyWrapper = styled.div`
+const BunnyWrapper = styled.div`
   width: 100%;
   animation: ${flyingAnim} 3.5s ease-in-out infinite;
   will-change: transform;
@@ -56,7 +58,6 @@ const InnerWrapper = styled.div`
     overflow: visible !important; // make sure the next-image pre-build blur image not be cropped
   }
 `
-*/
 
 const StarsWrapper = styled.div`
   position: absolute;
@@ -108,15 +109,15 @@ const Hero = () => {
       >
         <Flex flex="1" flexDirection="column">
           <Heading scale="xxl" color="secondary" mb="24px">
-            {t('Welcome. Buy crypto with fiat.')}
+            {t('The moon is made of pancakes.')}
           </Heading>
           <Heading scale="md" mb="24px">
-            {t('Buy crypto on AmehSwap. Trade on PANCAKESWAP. The quickest and seamless oppurtunity to move fiat to PANCAKESWAP.')}
+            {t('Trade, earn, and win crypto on the most popular decentralized platform in the galaxy.')}
           </Heading>
           <Flex>
             {!account && <ConnectWalletButton mr="8px" />}
-            <NextLinkFromReactRouter to="/Buy">
-              <Button variant={!account ? 'secondary' : 'primary'}>{t('Buy Now')}</Button>
+            <NextLinkFromReactRouter to="/swap">
+              <Button variant={!account ? 'secondary' : 'primary'}>{t('Trade Now')}</Button>
             </NextLinkFromReactRouter>
           </Flex>
         </Flex>
@@ -127,6 +128,9 @@ const Hero = () => {
           mb={['24px', null, null, '0']}
           position="relative"
         >
+          <BunnyWrapper>
+            <Image src={bunnyImage} priority placeholder="blur" alt={t('Lunar bunny')} />
+          </BunnyWrapper>
           <StarsWrapper>
             <CompositeImage {...starsImage} />
           </StarsWrapper>
