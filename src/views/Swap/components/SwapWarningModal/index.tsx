@@ -10,7 +10,6 @@ import BondlyWarning from './BondlyWarning'
 import Acknowledgement from './Acknowledgement'
 import CcarWarning from './CcarWarning'
 import BTTWarning from './BTTWarning'
-import RugPullWarning from './RugPullWarning'
 
 const StyledModalContainer = styled(ModalContainer)`
   max-width: 440px;
@@ -50,10 +49,6 @@ const SwapWarningModal: React.FC<SwapWarningModalProps> = ({ swapCurrency, onDis
     [SwapWarningTokensConfig.bttold.address]: {
       symbol: SwapWarningTokensConfig.bttold.symbol,
       component: <BTTWarning />,
-    },
-    [SwapWarningTokensConfig.pokemoney.address]: {
-      symbol: SwapWarningTokensConfig.pokemoney.symbol,
-      component: <RugPullWarning />,
     },
   }
 

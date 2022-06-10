@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
-import { Flex, Text, useMatchBreakpointsContext } from '@pancakeswap/uikit'
+import { Flex, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { formatLpBalance } from 'utils/formatBalance'
+import { getBalanceAmount, getFullDisplayBalance } from 'utils/formatBalance'
 import BaseCell, { CellContent } from 'views/Pools/components/PoolsTable/Cells/BaseCell'
 
 const StyledCell = styled(BaseCell)`
@@ -26,12 +26,19 @@ export interface StakedProps {
 
 const Staked: React.FC<StakedProps> = ({ label, stakedBalance }) => {
   const { t } = useTranslation()
-  const { isMobile } = useMatchBreakpointsContext()
+  const { isMobile } = useMatchBreakpoints()
 
   const labelText = t('%asset% Staked', { asset: label })
 
-  const displayBalance = useMemo(() => {
-    return formatLpBalance(stakedBalance)
+  const displayBalance = useCallback(() => {
+    const stakedBalanceBigNumber = getBalanceAmount(stakedBalance)
+    if (stakedBalanceBigNumber.gt(0) && stakedBalanceBigNumber.lt(0.0000001)) {
+      return stakedBalanceBigNumber.toFixed(10, BigNumber.ROUND_DOWN)
+    }
+    if (stakedBalanceBigNumber.gt(0) && stakedBalanceBigNumber.lt(0.0001)) {
+      return getFullDisplayBalance(stakedBalance).toLocaleString()
+    }
+    return stakedBalanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
   }, [stakedBalance])
 
   return (
@@ -42,7 +49,7 @@ const Staked: React.FC<StakedProps> = ({ label, stakedBalance }) => {
         </Text>
         <Flex mt="4px">
           <Text fontSize={isMobile ? '14px' : '16px'} color={stakedBalance.gt(0) ? 'text' : 'textDisabled'}>
-            {displayBalance}
+            {displayBalance()}
           </Text>
         </Flex>
       </CellContent>

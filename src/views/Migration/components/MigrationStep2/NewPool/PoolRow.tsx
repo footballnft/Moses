@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import useDelayedUnmount from 'hooks/useDelayedUnmount'
+import { useMatchBreakpoints } from '@pancakeswap/uikit'
 import { DeserializedPool, VaultKey } from 'state/types'
 import { useVaultPoolByKey, useVaultPools } from 'state/pools/hooks'
 import { BIG_ZERO } from 'utils/bigNumber'
@@ -10,7 +11,6 @@ import AutoAprCell from 'views/Pools/components/PoolsTable/Cells/AutoAprCell'
 import ActionPanel from 'views/Pools/components/PoolsTable/ActionPanel/ActionPanel'
 import ExpandActionCell from 'views/Pools/components/PoolsTable/Cells/ExpandActionCell'
 import AutoEarningsCell from 'views/Pools/components/PoolsTable/Cells/AutoEarningsCell'
-import { useMatchBreakpointsContext } from '@pancakeswap/uikit'
 import EarningsCell from '../../MigrationStep1/OldPool/Cells/EarningsCell'
 import TotalStakedCell from '../../MigrationStep1/OldPool/Cells/TotalStakedCell'
 import StakedCell from './Cells/StakedCell'
@@ -27,7 +27,7 @@ const StyledRow = styled.div`
 `
 
 const PoolRow: React.FC<PoolRowProps> = ({ pool, account }) => {
-  const { isXl, isXxl, isXs, isSm, isMd, isLg, isTablet, isDesktop } = useMatchBreakpointsContext()
+  const { isXl, isXxl, isXs, isSm, isMd, isLg, isTablet, isDesktop } = useMatchBreakpoints()
   const isLargerScreen = isLg || isXl || isXxl
   const isXLargerScreen = isXl || isXxl
   const [expanded, setExpanded] = useState(false)

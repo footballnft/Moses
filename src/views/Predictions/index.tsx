@@ -1,4 +1,4 @@
-import { useModal, useMatchBreakpointsContext } from '@pancakeswap/uikit'
+import { useMatchBreakpoints, useModal } from '@pancakeswap/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { PageMeta } from 'components/Layout/Page'
 import PageLoader from 'components/Loader/PageLoader'
@@ -67,7 +67,7 @@ function Warnings() {
 }
 
 const Predictions = () => {
-  const { isDesktop } = useMatchBreakpointsContext()
+  const { isDesktop } = useMatchBreakpoints()
   const { account } = useWeb3React()
   const status = useGetPredictionsStatus()
   const dispatch = useLocalDispatch()

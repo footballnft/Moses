@@ -7,21 +7,10 @@ export const fetchActivityNftMetadata = async (activities: Activity[]): Promise<
   const hasPBCollections = activities.some(
     (activity) => activity.nft.collection.id.toLowerCase() === pancakeBunniesAddress.toLowerCase(),
   )
-
-  const activityNftTokenIds = uniqBy(
-    activities
-      .filter((activity) => activity.nft.collection.id.toLowerCase() !== pancakeBunniesAddress.toLowerCase())
-      .map((activity): TokenIdWithCollectionAddress => {
-        return { tokenId: activity.nft.tokenId, collectionAddress: activity.nft.collection.id }
-      }),
-    (tokenWithCollectionAddress) =>
-      `${tokenWithCollectionAddress.tokenId}#${tokenWithCollectionAddress.collectionAddress}`,
-  )
-
-  const [bunniesMetadata, nfts] = await Promise.all([
-    hasPBCollections ? getNftsFromCollectionApi(pancakeBunniesAddress) : Promise.resolve(null),
-    getNftsFromDifferentCollectionsApi(activityNftTokenIds),
-  ])
+  let bunniesMetadata
+  if (hasPBCollections) {
+    bunniesMetadata = await getNftsFromCollectionApi(pancakeBunniesAddress)
+  }
 
   const pbNfts = bunniesMetadata
     ? activities
@@ -38,5 +27,14 @@ export const fetchActivityNftMetadata = async (activities: Activity[]): Promise<
         })
     : []
 
+  const activityNftTokenIds = uniqBy(
+    activities
+      .filter((activity) => activity.nft.collection.id.toLowerCase() !== pancakeBunniesAddress.toLowerCase())
+      .map((activity): TokenIdWithCollectionAddress => {
+        return { tokenId: activity.nft.tokenId, collectionAddress: activity.nft.collection.id }
+      }),
+    'tokenId',
+  )
+  const nfts = await getNftsFromDifferentCollectionsApi(activityNftTokenIds)
   return nfts.concat(pbNfts)
 }
