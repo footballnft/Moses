@@ -19,10 +19,10 @@ const Hero = () => {
         <Flex alignItems="center" justifyContent="space-between">
           <Box pr="32px">
             <Heading as="h1" scale="xxl" color="secondary" mb="16px">
-              {t('Warning')}
+              {t('Kindly purchase BEP20 tokens.')}
             </Heading>
             <Heading as="h3" scale="lg" mb="16px">
-              {t('Kindly purchase BEP20 tokens.')}
+              {t('NB: No ID required for transactions below $52.')}
             </Heading>
           </Box>
           

@@ -19,7 +19,7 @@ export default function WidgetContainer() {
        // color={defaultColor}
        // fontFamily={fontFamily}
         defaultAddrs={wallets}
-        defaultAmount={100}
+        defaultAmount={50}
        // defaultCrypto={defaultCrypto}
        // defaultFiat={defaultFiat}
         defaultFiatSoft="USD"
@@ -30,7 +30,7 @@ export default function WidgetContainer() {
          // onlyPaymentMethods: onlyPaymentMethods,
          // excludePaymentMethods: excludePaymentMethods,
          // excludeFiat: ["NGN"],
-         // onlyGateways: ["Moonpay"]
+        onlyGateways: ["Moonpay", "Wyre"]
          // onlyFiat: onlyFiat,
         }}
         isAddressEditable={false}
