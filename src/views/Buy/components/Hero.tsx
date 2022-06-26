@@ -22,7 +22,7 @@ const Hero = () => {
               {t('Kindly purchase BEP20 tokens.')}
             </Heading>
             <Heading as="h3" scale="lg" mb="16px">
-              {t('NB: No ID required for transactions below $52.')}
+              {t('NB: No ID required for transactions below $52 or it equivalent.')}
             </Heading>
           </Box>
           
